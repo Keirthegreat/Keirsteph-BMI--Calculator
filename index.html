@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,12 +10,14 @@
             margin: 20px;
             display: flex;
             align-items: center;
-            justify-content: space-around;
+            justify-content: center;
         }
 
-        #letter {
-            max-width: 600px;
-            margin-right: 20px;
+        #calculator-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            max-width: 800px;
         }
 
         #calculator {
@@ -29,6 +30,7 @@
 
         h1 {
             color: #333;
+            margin-bottom: 20px;
         }
 
         label {
@@ -61,41 +63,37 @@
             font-weight: bold;
         }
 
-        #gif-left,
-        #gif-right {
-            max-width: 150px;
-            height: auto;
-            margin: 20px;
+        .gif {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            margin: 10px;
         }
     </style>
 </head>
-
 <body>
 
-    <div id="letter">
-        <p>Mahal kong mga kaibigan,</p>
-        <p>Ako po si Keir Stephan Tombocon, at nais kong ibahagi sa inyo ang aking munting proyekto - isang BMI Calculator. Ang tool na ito ay naglalayong makatulong sa inyo na masusing suriin ang inyong Body Mass Index (BMI).</p>
-        <p>Sa simpleng paraan, maaari mong gamitin ang BMI Calculator na ito para maunawaan ang iyong kundisyon sa kalusugan batay sa iyong timbang at taas. Napakahalaga na tayo'y maging responsable sa ating kalusugan, at ito'y maaaring maging gabay sa pagtahak ng mas malusog na pamumuhay.</p>
-        <p>Nasa GitHub ko po ito at maaari mong bisitahin ang link na ito: <a href="https://github.com/keirstephan/bmi_calculator">Keir's BMI Calculator</a>.</p>
-        <p>Salamat sa inyong oras at sana'y maging kapaki-pakinabang ito sa inyo.</p>
-        <p>Warm regards,<br>Keir Stephan Tombocon</p>
+    <div id="calculator-container">
+        <!-- Left Gif -->
+        <img src="https://raw.githubusercontent.com/keirstephan/bmi_calculator/main/images/ricardo_milos.gif" alt="Ricardo Milos" class="gif">
+
+        <!-- BMI Calculator -->
+        <div id="calculator">
+            <h1>Keir Stephan Tombocon - BMI Calculator</h1>
+            <label for="weight">Weight (kg):</label>
+            <input type="number" id="weight" placeholder="Enter your weight">
+
+            <label for="height">Height (cm):</label>
+            <input type="number" id="height" placeholder="Enter your height">
+
+            <button onclick="calculateBMI()">Calculate BMI</button>
+
+            <div id="result"></div>
+        </div>
+
+        <!-- Right Gif -->
+        <img src="https://raw.githubusercontent.com/keirstephan/bmi_calculator/main/images/ricardo_milos.gif" alt="Ricardo Milos" class="gif">
     </div>
-
-    <div id="calculator">
-        <h1>Keir Stephan Tombocon - BMI Calculator</h1>
-        <label for="weight">Weight (kg):</label>
-        <input type="number" id="weight" placeholder="Enter your weight">
-
-        <label for="height">Height (cm):</label>
-        <input type="number" id="height" placeholder="Enter your height">
-
-        <button onclick="calculateBMI()">Calculate BMI</button>
-
-        <div id="result"></div>
-    </div>
-
-    <img id="gif-left" src="ricardo_left.gif" alt="Ricardo Milos dancing on the left">
-    <img id="gif-right" src="ricardo_right.gif" alt="Ricardo Milos dancing on the right">
 
     <script>
         function calculateBMI() {
@@ -112,6 +110,6 @@
     </script>
 
 </body>
-
 </html>
+
 
