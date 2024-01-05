@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,19 +9,26 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
         }
 
-        h1 {
-            color: #333;
+        #letter {
+            max-width: 600px;
+            margin-right: 20px;
         }
 
         #calculator {
             max-width: 400px;
-            margin: 20px auto;
             padding: 20px;
             background-color: #f4f4f4;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
         }
 
         label {
@@ -52,9 +60,26 @@
             margin-top: 20px;
             font-weight: bold;
         }
+
+        #gif-left,
+        #gif-right {
+            max-width: 150px;
+            height: auto;
+            margin: 20px;
+        }
     </style>
 </head>
+
 <body>
+
+    <div id="letter">
+        <p>Mahal kong mga kaibigan,</p>
+        <p>Ako po si Keir Stephan Tombocon, at nais kong ibahagi sa inyo ang aking munting proyekto - isang BMI Calculator. Ang tool na ito ay naglalayong makatulong sa inyo na masusing suriin ang inyong Body Mass Index (BMI).</p>
+        <p>Sa simpleng paraan, maaari mong gamitin ang BMI Calculator na ito para maunawaan ang iyong kundisyon sa kalusugan batay sa iyong timbang at taas. Napakahalaga na tayo'y maging responsable sa ating kalusugan, at ito'y maaaring maging gabay sa pagtahak ng mas malusog na pamumuhay.</p>
+        <p>Nasa GitHub ko po ito at maaari mong bisitahin ang link na ito: <a href="https://github.com/keirstephan/bmi_calculator">Keir's BMI Calculator</a>.</p>
+        <p>Salamat sa inyong oras at sana'y maging kapaki-pakinabang ito sa inyo.</p>
+        <p>Warm regards,<br>Keir Stephan Tombocon</p>
+    </div>
 
     <div id="calculator">
         <h1>Keir Stephan Tombocon - BMI Calculator</h1>
@@ -68,6 +93,9 @@
 
         <div id="result"></div>
     </div>
+
+    <img id="gif-left" src="ricardo_left.gif" alt="Ricardo Milos dancing on the left">
+    <img id="gif-right" src="ricardo_right.gif" alt="Ricardo Milos dancing on the right">
 
     <script>
         function calculateBMI() {
@@ -84,4 +112,6 @@
     </script>
 
 </body>
+
 </html>
+
