@@ -9,17 +9,24 @@
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 20px;
+            background-color: #f4f4f4; /* Added a light background color */
         }
 
         #calculator {
-            width: 300px;
+            width: 80%;
+            max-width: 400px;
             margin: auto;
+            background-color: #fff; /* Added a white background color */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Added a subtle box shadow */
         }
 
         input {
-            width: 100%;
+            width: calc(100% - 20px);
             padding: 10px;
             margin: 10px 0;
+            box-sizing: border-box; /* Adjusted box-sizing to include padding */
         }
 
         button {
@@ -66,11 +73,11 @@
 
         function getBMIMessage(bmi) {
             if (bmi < 18.5) {
-                return "Underweight - Kulang sa timbang";
+                return "Underweight - PAYAT MUNA, KUMAIN KA";
             } else if (bmi >= 18.5 && bmi < 25) {
-                return "Normal weight - Normal na timbang";
+                return "Normal weight - AY SHET NAOL, NORMAL TIMBANG";
             } else if (bmi >= 25 && bmi < 30) {
-                return "Overweight - Sobrang timbang";
+                return "Overweight - TABA MO NA YAN, KAIN PA";
             } else {
                 return "Obese - Obeso";
             }
@@ -78,4 +85,3 @@
     </script>
 </body>
 </html>
-
