@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,40 +10,77 @@
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 20px;
-            background-color: #f4f4f4; /* Added a light background color */
+            background-color: #f4f4f4;
         }
 
         #calculator {
-            width: 80%;
-            max-width: 400px;
+            width: 90%;
+            max-width: 600px;
             margin: auto;
-            background-color: #fff; /* Added a white background color */
-            padding: 20px;
+            background-color: #fff;
+            padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Added a subtle box shadow */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         input {
             width: calc(100% - 20px);
-            padding: 10px;
+            padding: 15px;
             margin: 10px 0;
-            box-sizing: border-box; /* Adjusted box-sizing to include padding */
+            box-sizing: border-box;
         }
 
         button {
             background-color: #4CAF50;
             color: white;
-            padding: 10px 20px;
+            padding: 15px 30px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
 
         #result {
+            margin-top: 30px;
+            font-size: 18px;
+        }
+
+        #guide {
             margin-top: 20px;
+            font-size: 16px;
+            color: #333;
+            text-align: left;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        #guide p {
+            margin: 0;
+        }
+
+        #calorie-table {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        #calorie-table table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        #calorie-table th, #calorie-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        #calorie-table th {
+            background-color: #f2f2f2;
         }
     </style>
 </head>
+
 <body>
     <h1>Keir Stephan Tombocon BMI Calculator</h1>
     <div id="calculator">
@@ -55,6 +93,8 @@
         <button onclick="calculateBMI()">Calculate BMI</button>
 
         <div id="result"></div>
+        <div id="guide"></div>
+        <div id="calorie-table"></div>
     </div>
 
     <script>
@@ -66,22 +106,61 @@
                 var bmi = weight / ((height / 100) * (height / 100));
                 var message = getBMIMessage(bmi);
                 document.getElementById("result").innerHTML = "Your BMI: " + bmi.toFixed(2) + "<br>" + message;
+
+                // Display Advice ni Keir based on BMI result
+                displayKeirAdvice(bmi);
+
+                // Display Calorie Recommendation Table
+                displayCalorieTable(bmi);
             } else {
                 document.getElementById("result").innerHTML = "Please enter valid weight and height.";
+                document.getElementById("guide").innerHTML = "";
+                document.getElementById("calorie-table").innerHTML = "";
             }
         }
 
         function getBMIMessage(bmi) {
             if (bmi < 18.5) {
-                return "Underweight - PAYAT MUNA, KUMAIN KA";
+                return "Underweight - PAYAT MUNA, KUMAIN KA NG MARAMI";
             } else if (bmi >= 18.5 && bmi < 25) {
-                return "Normal weight - AY SHET NAOL, NORMAL TIMBANG";
+                return "Normal weight - NORMAL TIMBANG MO SOLID YAN";
             } else if (bmi >= 25 && bmi < 30) {
-                return "Overweight - TABA MO NA YAN, KAIN PA";
+                return "Overweight - NASA OVERWEIGHT KA NA IWASAN MO ANG PAGSOBRA SA KAIN MO";
             } else {
-                return "Obese - ANTABA MO BABOY";
+                return "Obese - TUMABA KA NA D NA MAGANDA YAN SA KALUSUGAN MO";
+            }
+        }
+
+        function displayKeirAdvice(bmi) {
+            var guideElement = document.getElementById("guide");
+
+            if (bmi < 18.5) {
+                guideElement.innerHTML = "<p>Advice ni Keir: Kung ikaw ay may mababang timbang, dagdagan mo yung kinakain mo para makapag gain ka na weight and mag resistance training ka.</p>";
+            } else if (bmi >= 18.5 && bmi < 25) {
+                guideElement.innerHTML = "<p>Advice ni Keir: Para sa normal na timbang, panatilihin ang malusog na lifestyle gamit ang balanseng diyeta at regular na ehersisyo. Huwag kalimutan ang sapat na tulog at tubig nasa tamang landas ka.</p>";
+            } else if (bmi >= 25 && bmi < 30) {
+                guideElement.innerHTML = "<p>Advice ni Keir: Kung sobra ang timbang mo, mag cardio ka and calorie deficit bawasan mo ang rice mo and lagi mag exercise.</p>";
+            } else {
+                guideElement.innerHTML = "<p>Advice ni Keir: Kung ikaw ay tumaba na or obese bawasan mo na ang dami na kinakain mo na calories at mag exercise ka like cardio para mag lose ka ng timbang.</p>";
+            }
+        }
+
+        function displayCalorieTable(bmi) {
+            var calorieTableElement = document.getElementById("calorie-table");
+
+            calorieTableElement.innerHTML = "<h3>Calorie Recommendations</h3>";
+
+            if (bmi < 18.5) {
+                calorieTableElement.innerHTML += "<p>If you're underweight, it's essential to consume more calories to support weight gain. Consider a calorie intake of 2500-3000 calories per day.</p>";
+            } else if (bmi >= 18.5 && bmi < 25) {
+                calorieTableElement.innerHTML += "<p>For maintaining a normal weight, aim for a balanced diet with around 2000-2500 calories per day, depending on your activity level.</p>";
+            } else if (bmi >= 25 && bmi < 30) {
+                calorieTableElement.innerHTML += "<p>If you're overweight, focus on a calorie deficit by consuming around 1500-2000 calories per day, coupled with regular exercise.</p>";
+            } else {
+                calorieTableElement.innerHTML += "<p>If you're obese, a calorie intake of around 1200-1500 calories per day, combined with cardio exercise, can support weight loss.</p>";
             }
         }
     </script>
 </body>
+
 </html>
