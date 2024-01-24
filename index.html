@@ -179,11 +179,112 @@
             document.getElementById("result").style.opacity = 0;
         }
 
-        // Other functions and styling can be added as needed
+        function getBMIMessage(bmi) {
+            if (bmi < 18.5) {
+                return "Underweight";
+            } else if (bmi >= 18.5 && bmi < 25) {
+                return "Normal weight";
+            } else if (bmi >= 25 && bmi < 30) {
+                return "Overweight";
+            } else {
+                return "Obese";
+            }
+        }
 
-        // ... (rest of the JavaScript code)
+        function displayResult(bmi, message) {
+            var resultElement = document.getElementById("result");
+            var bmiCategory = getBMICategory(bmi);
 
+            resultElement.innerHTML = "Your BMI: " + bmi.toFixed(2) + "<br>" + message;
+            resultElement.innerHTML += "<br><br><p>" + getBMIComment(bmi) + "</p>";
+            resultElement.style.display = "block";
+
+            resultElement.style.backgroundColor = getBMIColor(bmiCategory);
+            resultElement.style.color = getFontColor(bmiCategory);
+
+            resultElement.style.opacity = 1;
+        }
+
+        function displayKeirFitnessAdvice(bmi) {
+            var calorieTableElement = document.getElementById("calorie-table");
+
+            calorieTableElement.innerHTML = "<h3>KeirFitnessAdvice</h3>";
+
+            if (bmi < 18.5) {
+                calorieTableElement.innerHTML += "<div class='fitness-advice'><h4>Underweight Advice</h4><p>If you're underweight, it's essential to consume more calories to support weight gain. Consider a calorie intake of 2500-3000 calories per day, focusing on nutrient-dense foods. You're doing great – keep up the efforts!</p></div>";
+            } else if (bmi >= 18.5 && bmi < 25) {
+                calorieTableElement.innerHTML += "<div class='fitness-advice'><h4>Normal Weight Advice</h4><p>For maintaining a normal weight, aim for a balanced diet with around 2000-2500 calories per day, depending on your activity level. Include a variety of fruits, vegetables, lean proteins, and whole grains. Your commitment to a healthy lifestyle is commendable!</p></div>";
+            } else if (bmi >= 25 && bmi < 30) {
+                calorieTableElement.innerHTML += "<div class='fitness-advice'><h4>Overweight Advice</h4><p>If you're overweight, focus on a calorie deficit by consuming around 1500-2000 calories per day, coupled with regular exercise. Choose whole foods and limit processed and high-sugar items. You're on the right track – keep pushing yourself!</p></div>";
+            } else {
+                calorieTableElement.innerHTML += "<div class='fitness-advice'><h4>Obese Advice</h4><p>If you're obese, a calorie intake of around 1200-1500 calories per day, combined with cardio exercise, can support weight loss. Prioritize nutrient-rich foods and stay hydrated. You've got this – stay motivated!</p></div>";
+            }
+        }
+
+        function getBMICategory(bmi) {
+            if (bmi < 18.5) {
+                return "Underweight";
+            } else if (bmi >= 18.5 && bmi < 25) {
+                return "Normal weight";
+            } else if (bmi >= 25 && bmi < 30) {
+                return "Overweight";
+            } else {
+                return "Obese";
+            }
+        }
+
+        function getBMIColor(bmiCategory) {
+            switch (bmiCategory) {
+                case "Underweight":
+                    return "#FFD700";
+                case "Normal weight":
+                    return "#008000";
+                case "Overweight":
+                    return "#FFA500";
+                case "Obese":
+                    return "#FF0000";
+                default:
+                    return "#FFFFFF";
+            }
+        }
+
+        function getFontColor(bmiCategory) {
+            switch (bmiCategory) {
+                case "Underweight":
+                    return "#000000";
+                case "Normal weight":
+                    return "#000000";
+                case "Overweight":
+                    return "#FFFFFF";
+                case "Obese":
+                    return "#FFFFFF";
+                default:
+                    return "#000000";
+            }
+        }
+
+        function getBMIComment(bmi) {
+            if (bmi < 18.5) {
+                return "You are underweight. Consider maintaining a healthy weight.";
+            } else if (bmi >= 18.5 && bmi < 25) {
+                return "Your weight is within the normal range. Keep up the good work!";
+            } else if (bmi >= 25 && bmi < 30) {
+                return "You are overweight. Focus on a balanced diet and regular exercise.";
+            } else {
+                return "You are in the obese category. Consider a weight loss plan with proper guidance.";
+            }
+        }
     </script>
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
