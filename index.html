@@ -37,6 +37,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-right: 10px;
         }
 
         #result {
@@ -91,6 +92,7 @@
         <input type="number" id="height" placeholder="Enter your height" required>
 
         <button onclick="calculateBMI()">Calculate BMI</button>
+        <button onclick="resetCalculator()">Reset</button>
 
         <div id="result"></div>
         <div id="guide"></div>
@@ -99,10 +101,19 @@
 
     <script>
         function calculateBMI() {
-            var weight = parseFloat(document.getElementById("weight").value);
-            var height = parseFloat(document.getElementById("height").value);
+            // Clear previous messages
+            document.getElementById("result").innerHTML = "";
+            document.getElementById("guide").innerHTML = "";
+            document.getElementById("calorie-table").innerHTML = "";
 
-            if (!isNaN(weight) && !isNaN(height)) {
+            var weightInput = document.getElementById("weight");
+            var heightInput = document.getElementById("height");
+
+            // Additional input validation
+            if (weightInput.validity.valid && heightInput.validity.valid) {
+                var weight = parseFloat(weightInput.value);
+                var height = parseFloat(heightInput.value);
+
                 var bmi = weight / ((height / 100) * (height / 100));
                 var message = getBMIMessage(bmi);
                 document.getElementById("result").innerHTML = "Your BMI: " + bmi.toFixed(2) + "<br>" + message;
@@ -113,10 +124,18 @@
                 // Display Calorie Recommendation Table
                 displayCalorieTable(bmi);
             } else {
+                // Inform users about invalid input
                 document.getElementById("result").innerHTML = "Please enter valid weight and height.";
-                document.getElementById("guide").innerHTML = "";
-                document.getElementById("calorie-table").innerHTML = "";
             }
+        }
+
+        function resetCalculator() {
+            // Clear all inputs and results
+            document.getElementById("weight").value = "";
+            document.getElementById("height").value = "";
+            document.getElementById("result").innerHTML = "";
+            document.getElementById("guide").innerHTML = "";
+            document.getElementById("calorie-table").innerHTML = "";
         }
 
         function getBMIMessage(bmi) {
@@ -163,4 +182,3 @@
     </script>
 </body>
 
-</html>
