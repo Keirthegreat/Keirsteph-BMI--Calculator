@@ -84,10 +84,11 @@
             padding: 20px;
             border: 2px solid #FFD700;
             border-radius: 8px;
-            background-color: #FFD700;
+            background-color: #6C5B7B; /* New background color */
             min-height: 150px;
             text-align: center;
             position: relative;
+            color: #FFFFFF; /* New text color */
         }
 
         .result-box {
@@ -95,7 +96,7 @@
             top: -20px; /* Adjusted to move the result box slightly higher */
             left: 50%;
             transform: translateX(-50%);
-            background-color: white;
+            background-color: #6C5B7B; /* Match the display box background color */
             padding: 4px 10px;
             border: 1px solid black;
             border-radius: 5px;
@@ -141,6 +142,7 @@
             <div id="result-display">
                 <div class="result-box">Result</div>
                 <div id="bmi-result"></div>
+                <div id="ideal-weight-result" class="result-box" style="display: none;"></div> <!-- Ideal Weight Result Box -->
             </div>
         </div>
     </div>
@@ -185,8 +187,12 @@
 
         function resetDisplayArea() {
             var bmiResultDisplay = document.getElementById("bmi-result");
-            // Clear content
+            var idealWeightResultDisplay = document.getElementById("ideal-weight-result");
+
+            // Clear content and hide ideal weight result box
             bmiResultDisplay.innerHTML = "";
+            idealWeightResultDisplay.innerHTML = "";
+            idealWeightResultDisplay.style.display = "none";
         }
 
         function displayBMIResult() {
@@ -198,6 +204,10 @@
             resetDisplayArea(); // Clear previous content
             calculateIdealWeightButton(); // Calculate ideal weight and display result
             var bmiResultDisplay = document.getElementById("bmi-result");
+            var idealWeightResultDisplay = document.getElementById("ideal-weight-result");
+
+            // Show ideal weight result box
+            idealWeightResultDisplay.style.display = "block";
             bmiResultDisplay.style.fontSize = "18px"; // Adjusted font size for better readability
         }
 
@@ -227,15 +237,15 @@
 
         function calculateIdealWeightButton() {
             var heightInput = document.getElementById("height");
-            var bmiResultDisplay = document.getElementById("bmi-result");
+            var idealWeightResultDisplay = document.getElementById("ideal-weight-result");
 
             if (heightInput.validity.valid) {
                 var height = parseFloat(heightInput.value);
                 var idealWeight = calculateIdealWeight(height);
 
-                bmiResultDisplay.innerHTML = "Your Ideal Weight: " + idealWeight + " kg";
+                idealWeightResultDisplay.innerHTML = "Your Ideal Weight: " + idealWeight + " kg";
             } else {
-                bmiResultDisplay.innerHTML = "Please enter valid height.";
+                idealWeightResultDisplay.innerHTML = "Please enter valid height.";
             }
         }
 
