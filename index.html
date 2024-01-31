@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,13 +16,22 @@
             width: 90%;
             max-width: 600px;
             margin: auto;
-            background-color: #fff;
-            padding: 30px;
+            background-color: #f0f0f0;
+            padding: 20px;
+            border: 2px solid #999;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        }
+
+        #calculator-header {
+            background-color: #ccc;
+            border-bottom: 2px solid #999;
+            padding: 10px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        #calculator-body {
+            padding: 20px;
         }
 
         label {
@@ -44,81 +52,151 @@
         }
 
         button {
-            background-color: #4CAF50;
-            color: white;
             padding: 15px 15px;
-            border: none;
+            border: 1px solid #999;
             border-radius: 5px;
             cursor: pointer;
             margin-top: 10px;
             font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        button.ideal-weight {
-            background-color: #3498db;
+        button:hover {
+            filter: brightness(85%);
+        }
+
+        button:active {
+            filter: brightness(70%);
+        }
+
+        button.calculate-bmi {
+            background-color: #4CAF50; /* Green */
+            color: #fff;
+        }
+
+        button.calculate-bmi:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        button.calculate-ideal-weight {
+            background-color: #FFD700; /* Gold */
+            color: #333;
+        }
+
+        button.calculate-ideal-weight:hover {
+            background-color: #DAA520; /* Darker gold on hover */
         }
 
         button.reset {
-            background-color: #ff0000;
+            background-color: #0074D9; /* Blue */
+            color: #fff;
         }
 
-        #result {
+        button.reset:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        button.keir-fitness-advice {
+            background-color: #800080; /* Purple */
+            color: #fff;
+        }
+
+        button.keir-fitness-advice:hover {
+            background-color: #6a006a; /* Darker purple on hover */
+        }
+
+        #result-display {
             margin-top: 30px;
             font-size: 24px;
             font-weight: bold;
             color: #333;
-            padding: 20px;
+            padding: 40px; /* Increased padding for a bigger display area */
             border: 2px solid #FFD700;
             border-radius: 8px;
             background-color: #FFD700;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        #calorie-table {
-            margin-top: 20px;
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .fitness-advice {
-            border: 2px solid #4CAF50;
-            border-radius: 8px;
-            padding: 15px;
-            width: 80%;
-            margin-top: 20px;
-            text-align: left;
-        }
-
-        #comments {
-            margin-top: 20px;
-            text-align: left;
+            min-height: 200px; /* Set a minimum height to ensure the display area is visible */
         }
     </style>
 </head>
-
 <body>
-    <h1>Keir Stephan Tombocon BMI Calculator</h1>
     <div id="calculator">
-        <label for="weight">Weight (kg):</label>
-        <input type="number" id="weight" placeholder="Enter your weight" required>
+        <div id="calculator-header">
+            <h1>Keir Stephan Tombocon BMI Calculator</h1>
+        </div>
+        <div id="calculator-body">
+            <label for="weight">Weight (kg):</label>
+            <input type="number" id="weight" placeholder="Enter your weight" required>
 
-        <label for="height">Height (cm):</label>
-        <input type="number" id="height" placeholder="Enter your height" required>
+            <label for="height">Height (cm):</label>
+            <input type="number" id="height" placeholder="Enter your height" required>
 
-        <button onclick="calculateBMI()">Calculate BMI</button>
-        <button class="ideal-weight" onclick="calculateIdealWeightButton()">Calculate Ideal Weight</button>
-        <button class="reset" onclick="resetCalculator()">Reset</button>
+            <button class="calculate-bmi" onclick="displayBMIResult()">Calculate BMI</button>
+            <button class="calculate-ideal-weight" onclick="displayIdealWeightResult()">Calculate Ideal Weight</button>
+            <button class="reset" onclick="resetDisplayArea()">Reset</button>
+            <button class="keir-fitness-advice" onclick="displayFitnessAdvice()">KeirFitnessAdvice</button> <!-- Changed advice function name -->
 
-        <div id="result"></div>
-        <div id="calorie-table"></div>
-        <div id="comments"></div>
+            <div id="result-display"></div> <!-- Display area for result and advice -->
+        </div>
     </div>
 
     <script>
+        // JavaScript functions
+
+        // Display area is visible by default
+        var resultDisplay = document.getElementById("result-display");
+
+        function displayResult(bmi, message) {
+            var bmiCategory = getBMICategory(bmi);
+
+            resultDisplay.innerHTML = "Your BMI: " + bmi.toFixed(2) + "<br>" + message;
+            resultDisplay.innerHTML += "<br><br><p>" + getBMIComment(bmi) + "</p>";
+
+            // Set styles for the result display
+            resultDisplay.style.backgroundColor = getBMIColor(bmiCategory);
+            resultDisplay.style.color = getFontColor(bmiCategory);
+        }
+
+        function displayFitnessAdvice() {
+            var weightInput = document.getElementById("weight");
+            var heightInput = document.getElementById("height");
+
+            if (weightInput.validity.valid && heightInput.validity.valid) {
+                var weight = parseFloat(weightInput.value);
+                var height = parseFloat(heightInput.value);
+                var bmi = weight / ((height / 100) * (height / 100));
+
+                // Display fitness advice based on BMI
+                if (bmi < 18.5) {
+                    resultDisplay.innerHTML = "<h3>Underweight Advice</h3><p>If you're underweight, it's essential to consume more calories to support weight gain. Consider a calorie intake of 2500-3000 calories per day, focusing on nutrient-dense foods. You're doing great – keep up the efforts!</p>";
+                } else if (bmi >= 18.5 && bmi < 25) {
+                    resultDisplay.innerHTML = "<h3>Normal Weight Advice</h3><p>For maintaining a normal weight, aim for a balanced diet with around 2000-2500 calories per day, depending on your activity level. Include a variety of fruits, vegetables, lean proteins, and whole grains. Your commitment to a healthy lifestyle is commendable!</p>";
+                } else if (bmi >= 25 && bmi < 30) {
+                    resultDisplay.innerHTML = "<h3>Overweight Advice</h3><p>If you're overweight, focus on a calorie deficit by consuming around 1500-2000 calories per day, coupled with regular exercise. Choose whole foods and limit processed and high-sugar items. You're on the right track – keep pushing yourself!</p>";
+                } else {
+                    resultDisplay.innerHTML = "<h3>Obese Advice</h3><p>If you're obese, a calorie intake of around 1200-1500 calories per day, combined with cardio exercise, can support weight loss. Prioritize nutrient-rich foods and stay hydrated. You've got this – stay motivated!</p>";
+                }
+            } else {
+                resultDisplay.innerHTML = "Please enter valid weight and height.";
+            }
+        }
+
+        function resetDisplayArea() {
+            // Clear content
+            resultDisplay.innerHTML = "";
+        }
+
+        function displayBMIResult() {
+            resetDisplayArea(); // Clear previous content
+            calculateBMI(); // Calculate BMI and display result
+        }
+
+        function displayIdealWeightResult() {
+            resetDisplayArea(); // Clear previous content
+            calculateIdealWeightButton(); // Calculate ideal weight and display result
+            resultDisplay.style.fontSize = "28px"; // Increase font size of the result
+        }
+
+        // BMI Calculation Functions
         function calculateIdealWeight(height) {
             var targetBMI = 22.5;
             var idealWeight = targetBMI * (height / 100) * (height / 100);
@@ -126,10 +204,6 @@
         }
 
         function calculateBMI() {
-            document.getElementById("result").style.display = "none";
-            document.getElementById("calorie-table").innerHTML = "";
-            document.getElementById("comments").innerHTML = "";
-
             var weightInput = document.getElementById("weight");
             var heightInput = document.getElementById("height");
 
@@ -140,9 +214,8 @@
                 var bmi = weight / ((height / 100) * (height / 100));
                 var message = getBMIMessage(bmi);
                 displayResult(bmi, message);
-                displayKeirFitnessAdvice(bmi);
             } else {
-                document.getElementById("result").innerHTML = "Please enter valid weight and height.";
+                resultDisplay.innerHTML = "Please enter valid weight and height.";
             }
         }
 
@@ -153,32 +226,13 @@
                 var height = parseFloat(heightInput.value);
                 var idealWeight = calculateIdealWeight(height);
 
-                var idealWeightResult = document.getElementById("result");
-                idealWeightResult.innerHTML = "Your Ideal Weight: " + idealWeight + " kg";
-                
-                // Change text color to black
-                idealWeightResult.style.color = "#000000";
-                
-                idealWeightResult.style.backgroundColor = "#FFD700"; // Change the background color to gold
-                idealWeightResult.style.display = "block";
-                idealWeightResult.style.opacity = 1;
-
-                document.getElementById("calorie-table").innerHTML = "";
-                document.getElementById("comments").innerHTML = "";
+                resultDisplay.innerHTML = "Your Ideal Weight: " + idealWeight + " kg";
             } else {
-                document.getElementById("result").innerHTML = "Please enter valid height.";
+                resultDisplay.innerHTML = "Please enter valid height.";
             }
         }
 
-        function resetCalculator() {
-            document.getElementById("weight").value = "";
-            document.getElementById("height").value = "";
-            document.getElementById("result").style.display = "none";
-            document.getElementById("calorie-table").innerHTML = "";
-            document.getElementById("comments").innerHTML = "";
-            document.getElementById("result").style.opacity = 0;
-        }
-
+        // Helper Functions
         function getBMIMessage(bmi) {
             if (bmi < 18.5) {
                 return "Underweight";
@@ -188,36 +242,6 @@
                 return "Overweight";
             } else {
                 return "Obese";
-            }
-        }
-
-        function displayResult(bmi, message) {
-            var resultElement = document.getElementById("result");
-            var bmiCategory = getBMICategory(bmi);
-
-            resultElement.innerHTML = "Your BMI: " + bmi.toFixed(2) + "<br>" + message;
-            resultElement.innerHTML += "<br><br><p>" + getBMIComment(bmi) + "</p>";
-            resultElement.style.display = "block";
-
-            resultElement.style.backgroundColor = getBMIColor(bmiCategory);
-            resultElement.style.color = getFontColor(bmiCategory);
-
-            resultElement.style.opacity = 1;
-        }
-
-        function displayKeirFitnessAdvice(bmi) {
-            var calorieTableElement = document.getElementById("calorie-table");
-
-            calorieTableElement.innerHTML = "<h3>KeirFitnessAdvice</h3>";
-
-            if (bmi < 18.5) {
-                calorieTableElement.innerHTML += "<div class='fitness-advice'><h4>Underweight Advice</h4><p>If you're underweight, it's essential to consume more calories to support weight gain. Consider a calorie intake of 2500-3000 calories per day, focusing on nutrient-dense foods. You're doing great – keep up the efforts!</p></div>";
-            } else if (bmi >= 18.5 && bmi < 25) {
-                calorieTableElement.innerHTML += "<div class='fitness-advice'><h4>Normal Weight Advice</h4><p>For maintaining a normal weight, aim for a balanced diet with around 2000-2500 calories per day, depending on your activity level. Include a variety of fruits, vegetables, lean proteins, and whole grains. Your commitment to a healthy lifestyle is commendable!</p></div>";
-            } else if (bmi >= 25 && bmi < 30) {
-                calorieTableElement.innerHTML += "<div class='fitness-advice'><h4>Overweight Advice</h4><p>If you're overweight, focus on a calorie deficit by consuming around 1500-2000 calories per day, coupled with regular exercise. Choose whole foods and limit processed and high-sugar items. You're on the right track – keep pushing yourself!</p></div>";
-            } else {
-                calorieTableElement.innerHTML += "<div class='fitness-advice'><h4>Obese Advice</h4><p>If you're obese, a calorie intake of around 1200-1500 calories per day, combined with cardio exercise, can support weight loss. Prioritize nutrient-rich foods and stay hydrated. You've got this – stay motivated!</p></div>";
             }
         }
 
@@ -276,5 +300,4 @@
         }
     </script>
 </body>
-
 </html>
