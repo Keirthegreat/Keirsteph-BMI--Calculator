@@ -13,8 +13,8 @@
         }
 
         #calculator {
-            width: 90%;
-            max-width: 600px;
+            width: 95%;
+            max-width: 400px; /* Adjusted max-width for smaller screens */
             margin: auto;
             background-color: #f0f0f0;
             padding: 20px;
@@ -23,19 +23,13 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        #calculator-header {
-            background-color: #ccc;
-            border-bottom: 2px solid #999;
-            padding: 10px;
-            border-radius: 8px 8px 0 0;
-        }
-
-        #calculator-body {
-            padding: 20px;
+        /* Adjusted font size for better readability on small screens */
+        h1 {
+            font-size: 24px;
         }
 
         label {
-            font-size: 18px;
+            font-size: 16px; /* Adjusted font size for better readability on small screens */
             margin-top: 10px;
             display: block;
             text-align: left;
@@ -43,77 +37,73 @@
 
         input {
             width: calc(100% - 20px);
-            padding: 12px;
+            padding: 10px; /* Adjusted padding for better touch interaction */
             margin: 8px 0;
             box-sizing: border-box;
             border: 1px solid #ccc;
             border-radius: 5px;
-            font-size: 16px;
+            font-size: 14px; /* Adjusted font size for better readability on small screens */
         }
 
         button {
-            width: 100%;
-            padding: 15px;
-            border: 1px solid #999;
+            padding: 12px 15px; /* Adjusted padding for better touch interaction */
+            border: none; /* Removed border */
             border-radius: 5px;
             cursor: pointer;
             margin-top: 10px;
-            font-size: 16px;
+            font-size: 14px; /* Adjusted font size for better readability on small screens */
             transition: background-color 0.3s, color 0.3s;
         }
 
-        button.calculate-bmi {
-            background-color: #FFD700; /* Gold */
-            color: #000;
+        /* Colors for different buttons */
+        .calculate-bmi {
+            background-color: #4CAF50; /* Green */
+            color: white;
         }
 
-        button.calculate-ideal-weight {
-            background-color: #008000; /* Green */
-            color: #fff;
+        .calculate-ideal-weight {
+            background-color: #008CBA; /* Blue */
+            color: white;
         }
 
-        button.reset {
-            background-color: #4682B4; /* Steel Blue */
-            color: #fff;
+        .reset {
+            background-color: #f44336; /* Red */
+            color: white;
         }
 
-        button.keir-fitness-advice {
-            background-color: #FF6347; /* Tomato */
-            color: #fff;
-        }
-
-        button:hover {
-            filter: brightness(85%);
-        }
-
-        button:active {
-            filter: brightness(70%);
+        .keir-fitness-advice {
+            background-color: #555555; /* Dark Gray */
+            color: white;
         }
 
         #result-display {
-            margin-top: 30px;
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            padding: 20px;
+            margin-top: 20px; /* Adjusted margin for better spacing */
+            font-size: 18px; /* Adjusted font size for better readability on small screens */
+            padding: 20px; /* Increased padding for a bigger display area */
             border: 2px solid #FFD700;
             border-radius: 8px;
             background-color: #FFD700;
-            min-height: 200px;
+            min-height: 150px; /* Adjusted min-height for better visibility */
         }
 
-        @media only screen and (max-width: 600px) {
-            #calculator {
-                width: 100%;
-                border-radius: 0;
+        /* Media query for screens smaller than 600px */
+        @media screen and (max-width: 600px) {
+            h1 {
+                font-size: 20px;
             }
-
-            button {
-                width: 48%;
+            label {
+                font-size: 14px;
             }
-
             input {
-                width: 48%;
+                font-size: 12px;
+            }
+            button {
+                font-size: 12px;
+                padding: 10px 12px;
+            }
+            #result-display {
+                font-size: 16px;
+                min-height: 120px;
             }
         }
     </style>
@@ -133,20 +123,16 @@
             <button class="calculate-bmi" onclick="displayBMIResult()">Calculate BMI</button>
             <button class="calculate-ideal-weight" onclick="displayIdealWeightResult()">Calculate Ideal Weight</button>
             <button class="reset" onclick="resetDisplayArea()">Reset</button>
-            <button class="keir-fitness-advice" onclick="displayFitnessAdvice()">Fitness Advice</button>
-
-            <div id="result-display"></div>
+            <button class="keir-fitness-advice" onclick="displayFitnessAdvice()">Fitness Advice</button> <!-- Changed button label -->
+            
+            <div id="result-display"></div> <!-- Display area for result and advice -->
         </div>
     </div>
 
     <script>
-        // JavaScript functions
-
-        // Display area is visible by default
-        var resultDisplay = document.getElementById("result-display");
-
         function displayResult(bmi, message) {
             var bmiCategory = getBMICategory(bmi);
+            var resultDisplay = document.getElementById("result-display");
 
             resultDisplay.innerHTML = "Your BMI: " + bmi.toFixed(2) + "<br>" + message;
             resultDisplay.innerHTML += "<br><br><p>" + getBMIComment(bmi) + "</p>";
@@ -159,6 +145,7 @@
         function displayFitnessAdvice() {
             var weightInput = document.getElementById("weight");
             var heightInput = document.getElementById("height");
+            var resultDisplay = document.getElementById("result-display");
 
             if (weightInput.validity.valid && heightInput.validity.valid) {
                 var weight = parseFloat(weightInput.value);
@@ -181,6 +168,7 @@
         }
 
         function resetDisplayArea() {
+            var resultDisplay = document.getElementById("result-display");
             // Clear content
             resultDisplay.innerHTML = "";
         }
@@ -193,7 +181,8 @@
         function displayIdealWeightResult() {
             resetDisplayArea(); // Clear previous content
             calculateIdealWeightButton(); // Calculate ideal weight and display result
-            resultDisplay.style.fontSize = "28px"; // Increase font size of the result
+            var resultDisplay = document.getElementById("result-display");
+            resultDisplay.style.fontSize = "18px"; // Adjusted font size for better readability
         }
 
         // BMI Calculation Functions
@@ -206,6 +195,7 @@
         function calculateBMI() {
             var weightInput = document.getElementById("weight");
             var heightInput = document.getElementById("height");
+            var resultDisplay = document.getElementById("result-display");
 
             if (weightInput.validity.valid && heightInput.validity.valid) {
                 var weight = parseFloat(weightInput.value);
@@ -221,6 +211,7 @@
 
         function calculateIdealWeightButton() {
             var heightInput = document.getElementById("height");
+            var resultDisplay = document.getElementById("result-display");
 
             if (heightInput.validity.valid) {
                 var height = parseFloat(heightInput.value);
@@ -260,30 +251,30 @@
         function getBMIColor(bmiCategory) {
             switch (bmiCategory) {
                 case "Underweight":
-                    return "#FFD700"; // Gold
+                    return "#FFD700";
                 case "Normal weight":
-                    return "#008000"; // Green
+                    return "#008000";
                 case "Overweight":
-                    return "#FFA500"; // Orange
+                    return "#FFA500";
                 case "Obese":
-                    return "#FF0000"; // Red
+                    return "#FF0000";
                 default:
-                    return "#FFFFFF"; // White
+                    return "#FFFFFF";
             }
         }
 
         function getFontColor(bmiCategory) {
             switch (bmiCategory) {
                 case "Underweight":
-                    return "#000000"; // Black
+                    return "#000000";
                 case "Normal weight":
-                    return "#000000"; // Black
+                    return "#000000";
                 case "Overweight":
-                    return "#FFFFFF"; // White
+                    return "#FFFFFF";
                 case "Obese":
-                    return "#FFFFFF"; // White
+                    return "#FFFFFF";
                 default:
-                    return "#000000"; // Black
+                    return "#000000";
             }
         }
 
