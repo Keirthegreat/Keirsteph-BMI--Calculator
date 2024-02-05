@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keir Stephan Tombocon BMI Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-i+1Y+xfrkr7MFf4LtP6d0htf14fLG2vN7GzYBm6kV66RiZ6pHXlXoJ46tBjCOuRg+D7B6Ayy3EJoOcoGPhf8yQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             text-align: center;
             margin: 10px;
-            background-color: #f4f4f4;
+            background: linear-gradient(to bottom right, #505050, #6C5B7B); /* Gradient using existing colors */
         }
 
         #calculator {
@@ -57,7 +59,11 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
+            transition: background-color 0.3s, color 0.3s, transform 0.3s; /* Added transition for transform */
+        }
+
+        button:hover {
+            transform: scale(1.05); /* Scale the button slightly on hover */
         }
 
         .calculate-bmi {
@@ -91,6 +97,7 @@
             text-align: center;
             position: relative;
             color: #FFFFFF; /* New text color */
+            animation: appear 0.5s ease forwards; /* Animation for result display */
         }
 
         .result-box {
@@ -102,6 +109,11 @@
             padding: 4px 10px;
             border: 1px solid black;
             border-radius: 5px;
+        }
+
+        @keyframes appear {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @media screen and (max-width: 600px) {
@@ -136,15 +148,19 @@
             <label for="height">Height (cm):</label>
             <input type="number" id="height" placeholder="Enter your height" required>
 
-            <button class="calculate-bmi" onclick="displayBMIResult()">Calculate BMI</button>
-            <button class="calculate-ideal-weight" onclick="displayIdealWeightResult()">Calculate Ideal Weight</button>
-            <button class="reset" onclick="resetDisplayArea()">Reset</button>
-            <button class="keir-fitness-advice" onclick="displayFitnessAdvice()">KeirFitness Advice</button>
+            <button class="calculate-bmi" onclick="displayBMIResult()"><i class="fas fa-calculator"></i> Calculate BMI</button>
+            <button class="calculate-ideal-weight" onclick="displayIdealWeightResult()"><i class="fas fa-weight"></i> Calculate Ideal Weight</button>
+            <button class="reset" onclick="resetDisplayArea()"><i class="fas fa-redo"></i> Reset</button>
+            <button class="keir-fitness-advice" onclick="displayFitnessAdvice()"><i class="fas fa-info-circle"></i> KeirFitness Advice</button>
             
             <div id="result-display">
                 <div class="result-box">Result</div>
                 <div id="bmi-result"></div>
                 <div id="ideal-weight-result" class="result-box" style="display: none;"></div> <!-- Ideal Weight Result Box -->
+                <div id="loading-screen" style="display: none;">
+                    <p>Calculating your BMI...</p>
+                    <div id="progress-bar" style="width: 0%; background-color: #FFD700; height: 10px;"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -182,6 +198,7 @@
                 } else {
                     bmiResultDisplay.innerHTML = "<h3>Obese Advice</h3><p>If you're obese, a calorie intake of around 1200-1500 calories per day, combined with cardio exercise, can support weight loss. Prioritize nutrient-rich foods and stay hydrated. You've got this – stay motivated!</p>";
                 }
+                bmiResultDisplay.style.animation = "appear 0.5s ease forwards"; // Add animation to the advice display
             } else {
                 bmiResultDisplay.innerHTML = "Please enter valid weight and height.";
             }
@@ -198,8 +215,40 @@
         }
 
         function displayBMIResult() {
-            resetDisplayArea(); // Clear previous content
-            calculateBMI(); // Calculate BMI and display result
+            var weightInput = document.getElementById("weight");
+            var heightInput = document.getElementById("height");
+            var bmiResultDisplay = document.getElementById("bmi-result");
+
+            if (weightInput.validity.valid && heightInput.validity.valid) {
+                resetDisplayArea(); // Clear previous result
+                displayLoadingScreen(); // Show loading screen
+                setTimeout(calculateBMI, 1000); // Simulate calculation delay
+            } else {
+                bmiResultDisplay.innerHTML = "Please enter valid weight and height.";
+            }
+        }
+
+        function calculateBMI() {
+            // Simulate BMI calculation delay
+            setTimeout(function() {
+                // Actual BMI calculation
+                var weightInput = document.getElementById("weight");
+                var heightInput = document.getElementById("height");
+                var bmiResultDisplay = document.getElementById("bmi-result");
+
+                if (weightInput.validity.valid && heightInput.validity.valid) {
+                    var weight = parseFloat(weightInput.value);
+                    var height = parseFloat(heightInput.value);
+
+                    var bmi = weight / ((height / 100) * (height / 100));
+                    var message = getBMIMessage(bmi);
+                    displayResult(bmi, message);
+                    hideLoadingScreen(); // Hide loading screen when calculation is complete
+                } else {
+                    bmiResultDisplay.innerHTML = "Please enter valid weight and height.";
+                    hideLoadingScreen(); // Hide loading screen when there's an error
+                }
+            }, 2000); // Simulate BMI calculation delay
         }
 
         function displayIdealWeightResult() {
@@ -218,23 +267,6 @@
             var targetBMI = 22.5;
             var idealWeight = targetBMI * (height / 100) * (height / 100);
             return idealWeight.toFixed(2);
-        }
-
-        function calculateBMI() {
-            var weightInput = document.getElementById("weight");
-            var heightInput = document.getElementById("height");
-            var bmiResultDisplay = document.getElementById("bmi-result");
-
-            if (weightInput.validity.valid && heightInput.validity.valid) {
-                var weight = parseFloat(weightInput.value);
-                var height = parseFloat(heightInput.value);
-
-                var bmi = weight / ((height / 100) * (height / 100));
-                var message = getBMIMessage(bmi);
-                displayResult(bmi, message);
-            } else {
-                bmiResultDisplay.innerHTML = "Please enter valid weight and height.";
-            }
         }
 
         function calculateIdealWeightButton() {
@@ -316,6 +348,31 @@
             } else {
                 return "You are in the obese category. Consider a weight loss plan with proper guidance.";
             }
+        }
+
+        // Loading screen functions
+        function displayLoadingScreen() {
+            var loadingScreen = document.getElementById("loading-screen");
+            loadingScreen.style.display = "block";
+            startProgress();
+        }
+
+        function hideLoadingScreen() {
+            var loadingScreen = document.getElementById("loading-screen");
+            loadingScreen.style.display = "none";
+        }
+
+        function startProgress() {
+            var progressBar = document.getElementById("progress-bar");
+            var width = 1;
+            var interval = setInterval(function() {
+                if (width >= 100) {
+                    clearInterval(interval);
+                } else {
+                    width++;
+                    progressBar.style.width = width + '%';
+                }
+            }, 20); // Adjust the interval to control the loading speed
         }
     </script>
 </body>
