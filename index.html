@@ -4,22 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keir Stephan Tombocon BMI Calculator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-i+1Y+xfrkr7MFf4LtP6d0htf14fLG2vN7GzYBm6kV66RiZ6pHXlXoJ46tBjCOuRg+D7B6Ayy3EJoOcoGPhf8yQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body {
             font-family: 'Roboto', sans-serif;
             text-align: center;
             margin: 10px;
-            background: linear-gradient(to bottom right, #505050, #6C5B7B); /* Gradient using existing colors */
+            background: linear-gradient(to bottom right, #292929, #3c3c3c); /* Darker gradient */
         }
 
         #calculator {
             width: 90%;
             max-width: 350px;
             margin: auto;
-            background-color: #000; /* Change background color to black */
-            color: #fff; /* Change text color to white */
+            background-color: #1f1f1f; /* Darker background */
+            color: #fff;
             padding: 15px;
             border: 2px solid #999;
             border-radius: 15px;
@@ -35,14 +35,15 @@
         .title-box {
             border: 2px solid #999;
             border-radius: 15px;
-            background-color: #000; /* Change background color to black */
-            color: #fff; /* Change text color to white */
+            background-color: #1f1f1f; /* Darker background */
+            color: #fff;
             margin-bottom: 15px;
         }
 
         label {
             font-size: 14px;
             margin-top: 8px;
+            color: #ddd; /* Lighter text color */
         }
 
         input {
@@ -50,6 +51,9 @@
             padding: 8px;
             margin: 6px 0;
             font-size: 12px;
+            background-color: #333; /* Darker input background */
+            color: #fff; /* Lighter input text color */
+            border: 1px solid #555; /* Darker border */
         }
 
         button {
@@ -59,31 +63,32 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s, color 0.3s, transform 0.3s; /* Added transition for transform */
+            transition: transform 0.3s; /* Only transition for transform */
+            background-color: #4CAF50; /* Green for calculate BMI */
+            color: #fff;
         }
 
         button:hover {
-            transform: scale(1.05); /* Scale the button slightly on hover */
-        }
-
-        .calculate-bmi {
-            background-color: #4CAF50;
-            color: white;
+            transform: scale(1.05);
         }
 
         .calculate-ideal-weight {
-            background-color: #008CBA;
-            color: white;
+            background-color: #0077cc; /* Different shade of blue */
+            color: #fff;
+        }
+
+        .calculate-ideal-weight:hover {
+            transform: scale(1.05); /* Hover effect */
         }
 
         .reset {
             background-color: #f44336;
-            color: white;
+            color: #fff;
         }
 
         .keir-fitness-advice {
-            background-color: purple;
-            color: white;
+            background-color: #673AB7; /* Darker color */
+            color: #fff;
         }
 
         #result-display {
@@ -92,20 +97,20 @@
             padding: 20px;
             border: 2px solid #FFD700;
             border-radius: 8px;
-            background-color: #6C5B7B; /* New background color */
+            background-color: #6C5B7B;
             min-height: 150px;
             text-align: center;
             position: relative;
-            color: #FFFFFF; /* New text color */
-            animation: appear 0.5s ease forwards; /* Animation for result display */
+            color: #FFFFFF;
+            animation: appear 0.5s ease forwards;
         }
 
         .result-box {
             position: absolute;
-            top: -20px; /* Adjusted to move the result box slightly higher */
+            top: -20px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #6C5B7B; /* Match the display box background color */
+            background-color: #6C5B7B;
             padding: 4px 10px;
             border: 1px solid black;
             border-radius: 5px;
@@ -156,7 +161,7 @@
             <div id="result-display">
                 <div class="result-box">Result</div>
                 <div id="bmi-result"></div>
-                <div id="ideal-weight-result" class="result-box" style="display: none;"></div> <!-- Ideal Weight Result Box -->
+                <div id="ideal-weight-result" class="result-box" style="display: none;"></div>
                 <div id="loading-screen" style="display: none;">
                     <p>Calculating your BMI...</p>
                     <div id="progress-bar" style="width: 0%; background-color: #FFD700; height: 10px;"></div>
@@ -173,7 +178,6 @@
             bmiResultDisplay.innerHTML = "Your BMI: " + bmi.toFixed(2) + "<br>" + message;
             bmiResultDisplay.innerHTML += "<br><br><p>" + getBMIComment(bmi) + "</p>";
 
-            // Set styles for the BMI result display
             bmiResultDisplay.style.backgroundColor = getBMIColor(bmiCategory);
             bmiResultDisplay.style.color = getFontColor(bmiCategory);
         }
@@ -188,7 +192,6 @@
                 var height = parseFloat(heightInput.value);
                 var bmi = weight / ((height / 100) * (height / 100));
 
-                // Display fitness advice based on BMI
                 if (bmi < 18.5) {
                     bmiResultDisplay.innerHTML = "<h3>Underweight Advice</h3><p>If you're underweight, it's essential to consume more calories to support weight gain. Consider a calorie intake of 2500-3000 calories per day, focusing on nutrient-dense foods. You're doing great – keep up the efforts!</p>";
                 } else if (bmi >= 18.5 && bmi < 25) {
@@ -198,7 +201,7 @@
                 } else {
                     bmiResultDisplay.innerHTML = "<h3>Obese Advice</h3><p>If you're obese, a calorie intake of around 1200-1500 calories per day, combined with cardio exercise, can support weight loss. Prioritize nutrient-rich foods and stay hydrated. You've got this – stay motivated!</p>";
                 }
-                bmiResultDisplay.style.animation = "appear 0.5s ease forwards"; // Add animation to the advice display
+                bmiResultDisplay.style.animation = "appear 0.5s ease forwards";
             } else {
                 bmiResultDisplay.innerHTML = "Please enter valid weight and height.";
             }
@@ -208,7 +211,6 @@
             var bmiResultDisplay = document.getElementById("bmi-result");
             var idealWeightResultDisplay = document.getElementById("ideal-weight-result");
 
-            // Clear content and hide ideal weight result box
             bmiResultDisplay.innerHTML = "";
             idealWeightResultDisplay.innerHTML = "";
             idealWeightResultDisplay.style.display = "none";
@@ -220,18 +222,16 @@
             var bmiResultDisplay = document.getElementById("bmi-result");
 
             if (weightInput.validity.valid && heightInput.validity.valid) {
-                resetDisplayArea(); // Clear previous result
-                displayLoadingScreen(); // Show loading screen
-                setTimeout(calculateBMI, 1000); // Simulate calculation delay
+                resetDisplayArea();
+                displayLoadingScreen();
+                setTimeout(calculateBMI, 1000);
             } else {
                 bmiResultDisplay.innerHTML = "Please enter valid weight and height.";
             }
         }
 
         function calculateBMI() {
-            // Simulate BMI calculation delay
             setTimeout(function() {
-                // Actual BMI calculation
                 var weightInput = document.getElementById("weight");
                 var heightInput = document.getElementById("height");
                 var bmiResultDisplay = document.getElementById("bmi-result");
@@ -243,26 +243,24 @@
                     var bmi = weight / ((height / 100) * (height / 100));
                     var message = getBMIMessage(bmi);
                     displayResult(bmi, message);
-                    hideLoadingScreen(); // Hide loading screen when calculation is complete
+                    hideLoadingScreen();
                 } else {
                     bmiResultDisplay.innerHTML = "Please enter valid weight and height.";
-                    hideLoadingScreen(); // Hide loading screen when there's an error
+                    hideLoadingScreen();
                 }
-            }, 2000); // Simulate BMI calculation delay
+            }, 2000);
         }
 
         function displayIdealWeightResult() {
-            resetDisplayArea(); // Clear previous content
-            calculateIdealWeightButton(); // Calculate ideal weight and display result
+            resetDisplayArea();
+            calculateIdealWeightButton();
             var bmiResultDisplay = document.getElementById("bmi-result");
             var idealWeightResultDisplay = document.getElementById("ideal-weight-result");
 
-            // Show ideal weight result box
             idealWeightResultDisplay.style.display = "block";
-            bmiResultDisplay.style.fontSize = "18px"; // Adjusted font size for better readability
+            bmiResultDisplay.style.fontSize = "18px";
         }
 
-        // BMI Calculation Functions
         function calculateIdealWeight(height) {
             var targetBMI = 22.5;
             var idealWeight = targetBMI * (height / 100) * (height / 100);
@@ -283,7 +281,6 @@
             }
         }
 
-        // Helper Functions
         function getBMIMessage(bmi) {
             if (bmi < 18.5) {
                 return "Underweight";
@@ -326,15 +323,15 @@
         function getFontColor(bmiCategory) {
             switch (bmiCategory) {
                 case "Underweight":
-                    return "#000000";
+                    return "#FFFFFF";
                 case "Normal weight":
-                    return "#000000";
+                    return "#FFFFFF";
                 case "Overweight":
                     return "#FFFFFF";
                 case "Obese":
                     return "#FFFFFF";
                 default:
-                    return "#000000";
+                    return "#FFFFFF";
             }
         }
 
@@ -350,7 +347,6 @@
             }
         }
 
-        // Loading screen functions
         function displayLoadingScreen() {
             var loadingScreen = document.getElementById("loading-screen");
             loadingScreen.style.display = "block";
@@ -372,7 +368,7 @@
                     width++;
                     progressBar.style.width = width + '%';
                 }
-            }, 20); // Adjust the interval to control the loading speed
+            }, 20);
         }
     </script>
 </body>
